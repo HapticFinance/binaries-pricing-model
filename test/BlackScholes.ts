@@ -48,20 +48,6 @@ const {
     ethers
 } = hre;
 
-const TOKEN_IDS = [
-    365620, //WETH/DAI pool 0.3% fee
-    365818
-]
-
-const SUSD = addresses.erc20Tokens.SUSD;
-const WETH = addresses.erc20Tokens.WETH;
-
-const TOKENS = [
-    addresses.erc20Tokens.WETH,
-    addresses.erc20Tokens.SUSD
-]
-
-
 
 const defaultParams = {
     // timeToExp: WEEK_SEC * 2,
