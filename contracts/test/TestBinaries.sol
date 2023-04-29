@@ -4,7 +4,7 @@ pragma solidity 0.8.18;
 import "../Binaries.sol";
 import "../BlackScholes.sol";
 
-contract BlackScholesTest {
+contract TestBinaries {
 
     function testBlackScholes(
         uint tAnnualised,
