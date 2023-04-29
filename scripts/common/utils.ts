@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import colors from "colors";
 export const { yellow, red, gray, green } = colors;
 
@@ -222,6 +222,8 @@ export function fromBN(val, dec) {
 
 export function toBN(val, decimals) {
     decimals = decimals || 18;
+    // console.log(`Val is ${val} and decimals is ${decimals}`)
+    
     // multiplier is to handle decimals
     if (val.includes('e')) {
       if (parseFloat(val) > 1) {
@@ -229,22 +231,37 @@ export function toBN(val, decimals) {
         const y = x[1].split('e+');
         const exponent = parseFloat(y[1]);
         const newVal = x[0] + y[0] + '0'.repeat(exponent - y[0].length);
-        console.warn(`Warning: toBN of val with exponent, converting to string. (${val}) converted to (${newVal})`);
+        // console.warn(`Warning: toBN of val with exponent, converting to string. (${val}) converted to (${newVal})`);
         val = newVal;
       } else {
-        console.warn(
-          `Warning: toBN of val with exponent, converting to float. (${val}) converted to (${parseFloat(val).toFixed(
-            decimals,
-          )})`,
-        );
+        // console.warn(
+        //   `Warning: toBN of val with exponent, converting to float. (${val}) converted to (${parseFloat(val).toFixed(
+        //     decimals,
+        //   )})`,
+        // );
         val = parseFloat(val).toFixed(decimals);
       }
     } else if (val.includes('.') && val.split('.')[1].length > decimals) {
-      console.warn(`Warning: toBN of val with more than ${decimals} decimals. Stripping excess. (${val})`);
       const x = val.split('.');
       x[1] = x[1].slice(0, decimals);
       val = x[0] + '.' + x[1];
+      // console.warn(`Warning: toBN of val with more than ${decimals} decimals. Stripped excess. (${val})`);
+
     }
+    
+    // let parsed 
+    // try {
+    //   parsed = utils.parseUnits(val, decimals);
+    // } catch (e) {
+
+    //   console.log(`Error parsing ${val} with ${decimals} decimals`)
+    //   throw e
+    // }
+
+    if (isNaN(val) || !isFinite(val) || typeof val === 'undefined' || val === null) {
+      return
+    }
+
     return utils.parseUnits(val, decimals);
   }
 
