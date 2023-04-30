@@ -1,5 +1,5 @@
 ---
-title: "Binary Option Valuation"
+title: "Valuation of binaries"
 output: 
   pdf_document:
       toc: false
@@ -40,6 +40,7 @@ header-includes:
     - \usepackage{wrapfig}
     - \usepackage{eso-pic,graphicx,transparent}
     - \DeclareUnicodeCharacter{2212}{-}
+    - \newcommand{\Tau}{\scalebox{1.22}{$\tau$}}
     - \backgroundsetup{pages={some},contents={}, opacity={0.3}, color={gray}}
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "pdf") })
@@ -48,74 +49,188 @@ knit: (function(inputFile, encoding) {
 \captionsetup[table]{labelformat=empty}
 \captionsetup[table]{labelfont=bf}
 
-\section{Risk-neutral Valuation}
+\section{Notation and Definitions}
 
-We assume the asset price follows a lognormal random walk in a frictionless, time continuum setting. The expected return equals the risk-free interest rate which is taken to be constant and continuous over time. In addition, the asset does not pay dividends over the life of the option. This  method is called "risk-neutral" valuation approach. 
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Description} \\
+\midrule
+$S$ & Spot price of the underlying asset at time $\tau$ \\
+$K$ & Strike price of the option \\
+$r$ & Risk-free interest rate \\
+$\sigma$ & Volatility of the underlying asset \\
+$\Tau$ & Time to expiry \\
+$T$ & Maturity of the option \\
+$\Phi$ & Cumulative distribution function of the standard normal distribution \\
+$C$ & Value of a call option \\
+$P$ & Value of a put option \\
+$V_{AC}$ & Value of an asset-or-nothing call option \\
+$V_{AP}$  & Value of an asset-or-nothing put option \\
+$V_{CC}$ & Value of a cash-or-nothing call option \\
+$V_{CP}$ & Value of a cash-or-nothing put option \\
+\bottomrule
+\end{tabular}
+\end{table}
 
+\section{Black-Scholes formula}
+
+The value of a call option for a non-dividend-paying underlying stock in terms of the Black–Scholes parameters is:
+
+\begin{flalign}
+C & = S\Phi(d_{1}) − e^{−r\tau} K\Phi(d_{2}) \nonumber \\
+\nonumber \\
+d_{2} & = −\frac{\ln\Big(\frac{K}{S}\Big)− \Big(r−\frac{1}{2}\sigma^{2}\Big)\Tau}{\sigma\sqrt{\Tau}} \nonumber \\
+\nonumber \\
+d_{1} & = d_{2} + \sigma\sqrt{\Tau} \nonumber
+\end{flalign}
+
+The formula can be interpreted as breaking down a call option into the difference between two distinct binary options: an asset-or-nothing call option and a cash-or-nothing call option. Essentially, it involves going long on an asset-or-nothing call option while simultaneously going short on a cash-or-nothing call option. A standard call option allows the holder to trade cash for an asset upon its expiration, whereas an asset-or-nothing call option grants the holder the asset without any cash exchanged, and a cash-or-nothing call option provides the holder with cash without transferring any asset. The Black-Scholes formula consists of the difference beteween the value of the two binary options.  The payoff of the call option at maturity $T$ is given by:
+
+ \begin{flalign}
+  C_{(T)} & = max\{0, \text{\:}S_{(T)} − K\} = \left\{
+  \begin{array}{ll}
+    S_{(T)} - K, & S_{(T)} > K, \\
+    0, & \text{otherwise}.
+  \end{array}
+  \right.  \nonumber 
+\end{flalign}
+
+The first component is the payment of the exercise price contingent to the option ending in the money. The payoff of this component is:
+
+ \begin{flalign}
+  C^{1}_{(T)} & = \left\{
+  \begin{array}{ll}
+    − K, & S_{(T)} > K, \\
+    0, & \text{otherwise}.
+  \end{array}
+  \right.  \nonumber 
+\end{flalign}
+
+The second component is the receipt of the asset, again contingent to the option ending in the money. The payoff of this component is:
+
+ \begin{flalign}
+  C^{2}_{(T)} & = \left\{
+  \begin{array}{ll}
+    S_{(T)}, & S_{(T)} > K, \\
+    0, & \text{otherwise}.
+  \end{array}
+  \right.  \nonumber 
+\end{flalign}
+
+<!-- \section{Risk-neutral Valuation}
+
+We assume the asset price follows a lognormal random walk in a frictionless, time continuum setting. The expected return equals the risk-free interest rate which is taken to be constant over time. In addition, the asset does not pay dividends over the life of the option. This  method is called "risk-neutral" valuation.  -->
 
 \subsection{Asset-or-nothing Call}
 
-With this type of option, the payout is one unit of the underlying asset if the spot price $S$ at maturity $T$ ($S_{(T)}$) is above the strike price $K$ or zero otherwise.
-
+With this type of option, the payout is one unit of the underlying asset if the spot price $S$ at maturity $T$ ($S_{(T)}$) is above the strike price $K$ or zero otherwise. The payoff of this option contingent to the receipt of the asset equals the expected value, computed using risk-adjusted probabilities and discounted ad the risk-less rate. The expected future value of this option is the product of the partial expectation of the asset price at exercise and the probability of the exercise event.
+<!-- 
 \begin{equation*}
-V_{AC_{(T)}} = v_{AC}(T, S_{(T)}) = S_{(T)} \Pi_{[S_{(T)} > K]} 
-\end{equation*}
+V_{AC_{(T)}} = v_{AC}(T, S_{(T)}) = S_{(T)} \mathbbm{1}_{[S_{(T)} > K]} 
+\end{equation*}  -->
 
-Given that the expected return is the risk-free interest rate $r$, we get:
+<!-- Given that the expected return is the risk-free interest rate $r$, we get: -->
 
  \begin{flalign}
-    V_{AC} = {\rm e}^{-rT} & \underbrace{ \mathbb{E}[S_{(T)}\Pi_{\{S_{(T)} > K\}}]
-  }_\text{Partial expectation} \nonumber \\ 
-  & \mathbb{E}[S_{(T)}\Pi_{\{S_{(T)} > K\}}] = S{\rm e}^{rT} \Phi(d_{1}) \nonumber \\ 
-  \vspace{1cm}
-  & \mathnormal{\:\:\:\:\:\:\:\:\:where} \nonumber \\
-  & d_{1} = \frac{1}{\sigma\sqrt{T}} \Big [\ln\Big(\frac{S}{K}\Big)+\Big(r + \frac{1}{2} \sigma^2\Big)T \Big] \nonumber \\
+  V_{AC_{(T)}} & = \left\{
+  \begin{array}{ll}
+    S_{(T)}, & S_{(T)} > K, \\
+    0, & \text{otherwise}.
+  \end{array}
+  \right.  \nonumber \\
   \nonumber \\
-  V_{AC} = {\rm e}^{-rT} & S{\rm e}^{rT} \Phi(d_{1}) = S{\rm e}^{-rT} \Phi(d_{1}) \label{eq:1} 
+    V_{AC} & = {\rm e}^{−r\tau} \underbrace{ \mathbb{E}[S_{(T)}\mathbbm{1}_{[S_{(T)} > K]}]
+  }_\text{Partial expectation} \underbrace{\mathbb{P}\{S_{(T)} > K\}}_\text{Probability of exercise} \nonumber \\ 
+  \nonumber \\ 
+  & \mathbb{E}[S_{(T)}\mathbbm{1}_{[S_{(T)} > K]}] \mathbb{P}\{S_{(T)} > K\} = S{\rm e}^{r\tau} \Phi(d_{1}) \nonumber \\
+  \nonumber \\
+  V_{AC} & = {\rm e}^{−r\tau} S{\rm e}^{r\tau} \Phi(d_{1}) = S{\rm e}^{−r\tau} \Phi(d_{1}) \label{eq:1} 
 \end{flalign}
 
-Multiplying $\Phi(d_{1})$ by the current asset price and the risk-free compounding factor gives the expected value of receiving the asset at expiration of the option - contingent upon the contract ending up in the money - calculated using risk-adjusted probabilities. Therefore, $\Phi(d_{1})$ is a measure by which the discounted expected value of contingent receipt of the asset exceeds the present value of the asset.
+$\Phi(d_{1})$ is a measure by which the discounted expected value of contingent receipt of the asset exceeds the present value of the asset.
 
 \subsection{Asset-or-nothing Put}
-With this type of option, the payout is one unit of the underlying asset if the spot price S at maturity $T$ is below the strike price K or zero otherwise.
+With this type of option, the payout is one unit of the underlying asset if the spot price S at maturity is below the strike price K or zero otherwise. 
 
-\begin{equation*}
-    V_{AP_{(T)}} = v_{AP}(T, S_{(T)}) = S_{(T)}\Pi_{\{S_{(T)} < K\}} 
-\end{equation*}
+\begin{flalign}
+V_{AP_{(T)}} =\left\{
+\begin{array}{ll}
+  S_{(T)}, & \text{if } S_{(T)} < K, \\
+  0, & \text{otherwise}.
+\end{array}
+\right.  \nonumber 
+\end{flalign}
 
-\newpage
 
-Using put-call parity, we can derive the value of an asset-or-nothing binary put option ($V_{AP}$) by substituing the value of $V_{AC}$ in the formula for $V_{AP}$:
+<!-- \begin{equation*}
+    V_{AP_{(T)}} = v_{AP}(T, S_{(T)}) = S_{(T)}\mathbbm{1}_{\{S_{(T)} < K\}} 
+\end{equation*} -->
 
- \begin{flalign*}
-  V_{AP} & = S {\rm e}^{-rT} - V_{AC} \\
-  & = S{\rm e}^{-rT}-S{\rm e}^{-rT} \Phi(d_{1}) \\
-  & = S{\rm e}^{−rT} (1 − \Phi(d_{1})) \\
-  & = S{\rm e}^{-rT} \Phi(-d_{1})
- \end{flalign*}
+
+Using put-call parity, we can derive the value of an asset-or-nothing binary put option ($V_{AP}$) by substituting \eqref{eq:1} in the formula for $V_{AP}$:
+
+ \begin{flalign}
+  V_{AP} & = S {\rm e}^{−r\tau} − V_{AC} \nonumber \\
+  & = S{\rm e}^{−r\tau}−S{\rm e}^{−r\tau} \Phi(d_{1}) \nonumber \\
+  & = S{\rm e}^{−r\tau} (1 − \Phi(d_{1})) \nonumber \\
+  & = S{\rm e}^{−r\tau} \Phi(−d_{1}) \label{eq:2}
+ \end{flalign}
 
 \subsection{Cash-or-nothing Call}
 
-With this type of option, the payout is one unit of riskless asset if the spot price S at maturity $T$ is above the strike price K or zero otherwise.
+For cash-or-nothing call, the payout is one unit of risk-less asset if the spot price S at maturity $T$ is above the strike price K or zero otherwise. Since this type of option does not involve receiving an asset, the payoff does not depend on the expectation of the asset price at exercise but rather on the probability of the exercise event. 
 
-\begin{equation*}
-    V_{CC_{(T)}} = v_{CC} (T, S_{(T)}) = \Pi_{[S_{(T)}>K]} 
-\end{equation*}
+<!-- \begin{equation*}
+    V_{CC_{(T)}} = v_{CC} (T, S_{(T)}) = \mathbbm{1}_{[S_{(T)}>K]} 
+\end{equation*} -->
 
-Given that the expected return is the risk-free interest rate $r$, we get:
+<!-- Given that the expected return is the risk-free interest rate $r$, we get: -->
 
  \begin{flalign}
- V_{CC} & = {\rm e}^{-rT} \mathbb{E}[v_{CC}(T, S_{(T)})] \nonumber \\
- & = {\rm e}^{-rT} \mathbb{E}[\Pi_{[S_{(T)}>K]}] \nonumber \\
-    & = {\rm e}^{-rT} \underbrace{\mathbb{P} [S_{(T)}>K]}_\text{Tail probability} \nonumber \\ 
-  & \mathbb{P}[S_{(T)} > K] = \Phi(d_{2}) \nonumber \\ 
-  & \mathnormal{\:\:\:\:\:\:\:\:\:where} \nonumber \\
-  & d_{2} = \frac{1}{\sigma\sqrt{T}}\Big[\ln\Big(\frac{S}{K}\Big) + \Big(r - \frac{1}{2} \sigma^2\Big)T\Big] \nonumber \\
+ V_{CC_{(T)}} & = \left\{
+\begin{array}{ll}
+  1, & \text{if } S_{(T)} > K, \\
+  0, & \text{otherwise}.
+\end{array}
+\right.  \nonumber \\
+\nonumber \\
+ V_{CC} & = {\rm e}^{−r\tau} \mathbb{E}[v_{CC}(T, S_{(T)})] \nonumber \\
+ & = {\rm e}^{−r\tau} \mathbb{E}[\mathbbm{1}_{[S_{(T)}>K]}] \nonumber \\
+    & = {\rm e}^{−r\tau} \underbrace{\mathbb{P} [S_{(T)}>K]}_\text{Tail probability} \nonumber \\ 
+ \nonumber \\
+  & \mathbb{P}[S_{(T)} > K] = \Phi(d_{2}) \nonumber \\
   \nonumber \\
-  V_{CC} & = {\rm e}^{-rT} \Phi(d_{2}) \label{eq:2} 
+  V_{CC} & = {\rm e}^{−r\tau} \Phi(d_{2}) \label{eq:3} 
 \end{flalign}
 
 The value of a this option equals the risk-free compounding factor multiplied by $\Phi{(d_{2})}$, the risk-adjusted probability that the option will be exercised.
+
+\subsection{Cash-or-nothing Put}
+With this type of option, the payout is one unit of risk-less asset if the spot price S at maturity $T$ is below the strike price K or zero otherwise.
+
+\begin{flalign}
+V_{CP_{(T)}} =\left\{
+\begin{array}{ll}
+  1, & \text{if } S_{(T)} < K, \\
+  0, & \text{otherwise}.
+\end{array}
+\right.  \nonumber 
+\end{flalign}
+
+<!-- \begin{equation*}
+    V_{CP_{(T)}} = v_{CP}(T, S_{(T)}) = \mathbbm{1}_{\{S_{(T)} < K\}} 
+\end{equation*} -->
+
+Using put-call parity, we can derive the value of an cash-or-nothing binary put option ($V_{CP}$) by substituing the value of $V_{CC}$ in the formula for $V_{CP}$:
+
+  \begin{flalign}
+    V_{CP} & = {\rm e}^{−r\tau} − V_{CC} \nonumber \\
+    & = {\rm e}^{−r\tau} − {\rm e}^{−r\tau} \Phi(d_{2}) \nonumber \\
+    & = {\rm e}^{−r\tau} (1 − \Phi(d_{2})) \nonumber \\
+    & = {\rm e}^{−r\tau} \Phi(−d_{2}) \label{eq:4}
+  \end{flalign}
 
 \newpage
 
