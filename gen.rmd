@@ -86,7 +86,7 @@ d_{2} & = −\frac{\ln\Big(\frac{K}{S}\Big)− \Big(r−\frac{1}{2}\sigma^{2}\Bi
 d_{1} & = d_{2} + \sigma\sqrt{\Tau} \nonumber
 \end{flalign}
 
-The formula can be interpreted as breaking down a call option into the difference between two distinct binary options: an asset-or-nothing call option and a cash-or-nothing call option. Essentially, it involves going long on an asset-or-nothing call option while simultaneously going short on a cash-or-nothing call option. A standard call option allows the holder to trade cash for an asset upon its expiration, whereas an asset-or-nothing call option grants the holder the asset without any cash exchanged, and a cash-or-nothing call option provides the holder with cash without transferring any asset. The Black-Scholes formula consists of the difference beteween the value of the two binary options.  The payoff of the call option at maturity $T$ is given by:
+The formula can be interpreted as breaking down a call option into the difference between two distinct binary options: an asset-or-nothing call option and a cash-or-nothing call option. Essentially, it involves going long on an asset-or-nothing call option while simultaneously going short on a cash-or-nothing call option. A standard call option allows the holder to trade cash for an asset upon its expiration, whereas an asset-or-nothing call option grants the holder the asset without any cash exchanged, and a cash-or-nothing call option provides the holder with cash without transferring any asset. The Black-Scholes formula for the call option value consists of the difference beteween the value of the two binary options.  The payoff of the call option at maturity $T$ is given by:
 
  \begin{flalign}
   C_{(T)} & = max\{0, \text{\:}S_{(T)} − K\} = \left\{
