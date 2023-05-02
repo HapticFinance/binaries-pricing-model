@@ -15,6 +15,7 @@ $C = {\rm e}^{−r\tau} \Phi(d_{2})$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Call)
 
 $P = {\rm e}^{−r\tau} \Phi(−d_{2})$ &nbsp;&nbsp;&nbsp;(Put)
 
+\
 For more details on the option pricing model used in the contracts, available in the `pdf/` folder.
 
 ## Compile
