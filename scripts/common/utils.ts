@@ -2,21 +2,15 @@ import { ethers, BigNumber } from "ethers";
 import colors from "colors";
 export const { yellow, red, gray, green } = colors;
 
-import { FeeAmount } from "@uniswap/v3-sdk";
-
 import fs from 'fs/promises';
 import path from 'path';
+import { JsonFragment } from "@ethersproject/abi";
 
 const { 
-    getDefaultProvider, 
     utils
 } = ethers;
 
 const { 
-    formatEther, 
-    formatUnits, 
-    parseUnits, 
-    parseEther, 
     Interface 
 } = utils;
 
@@ -30,10 +24,10 @@ const feeTiers = {
 const TRESHOLD = `0.005`;
 
 export const execTxn = async (
-    contract, 
-    method, 
-    args, 
-    options
+    contract: { [x: string]: (arg0: any, arg1: any) => any; }, 
+    method: string | number, 
+    args: any, 
+    options: any
 ) => {
     const tx = await contract[method](...args, options);
     return tx;
@@ -53,9 +47,9 @@ export const saveBuild = async (buildData: any): Promise<void> => {
 
 
 export const getCreate2Address = (
-    factoryAddress,
-    [tokenA, tokenB],
-    bytecode
+    factoryAddress: any,
+    [tokenA, tokenB]: any,
+    bytecode: any
 ) => {
     const [
         token0, 
@@ -78,7 +72,7 @@ export const getCreate2Address = (
     );
 }
 
-export const decodeEvents = (tx, abi, filters) => {
+export const decodeEvents = (tx: { data: any; }, abi: string | readonly (string | ethers.utils.Fragment | JsonFragment)[], filters: string | string[]) => {
 
     const iface = new Interface(abi);
 
@@ -275,3 +269,15 @@ export const priceToTick = (price) => {
 export const display = (value) => {
     return yellow(Number(value).toFixed(6));
 }
+function keccak256(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
+function solidityPack(arg0: string[], arg1: any[]): any {
+  throw new Error("Function not implemented.");
+}
+
+function getAddress(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+
