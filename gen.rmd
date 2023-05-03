@@ -119,19 +119,10 @@ The second component is the receipt of the asset, again contingent to the option
   \right.  \nonumber 
 \end{flalign}
 
-<!-- \section{Risk-neutral Valuation}
-
-We assume the asset price follows a lognormal random walk in a frictionless, time continuum setting. The expected return equals the risk-free interest rate which is taken to be constant over time. In addition, the asset does not pay dividends over the life of the option. This  method is called "risk-neutral" valuation.  -->
 
 \subsection{Asset-or-nothing Call}
 
-With this type of option, the payout is one unit of the underlying asset if the spot price $S$ at maturity $T$ ($S_{(T)}$) is above the strike price $K$ or zero otherwise. The payoff of this option contingent to the receipt of the asset equals the expected value, computed using risk-adjusted probabilities and discounted ad the risk-less rate. The expected future value of this option is the product of the partial expectation of the asset price at exercise and the probability of the exercise event.
-<!-- 
-\begin{equation*}
-V_{AC_{(T)}} = v_{AC}(T, S_{(T)}) = S_{(T)} \mathbbm{1}_{[S_{(T)} > K]} 
-\end{equation*}  -->
-
-<!-- Given that the expected return is the risk-free interest rate $r$, we get: -->
+With this type of option, the payout is one unit of the underlying asset if the spot price $S$ at maturity $T$ ($S_{(T)}$) is above the strike price $K$ or zero otherwise. The payoff of this option contingent to the receipt of the asset equals the expected value, computed using risk-adjusted probabilities and discounted ad the risk-less rate. The expected future value of this option is the product of the partial expectation of the asset price at exercise and the probability of the exercise event. $\Phi(d_{1})$ is a measure by which the discounted expected value of contingent receipt of the asset exceeds the present value of the asset.
 
  \begin{flalign}
   V_{AC_{(T)}} & = \left\{
@@ -149,7 +140,6 @@ V_{AC_{(T)}} = v_{AC}(T, S_{(T)}) = S_{(T)} \mathbbm{1}_{[S_{(T)} > K]}
   V_{AC} & = {\rm e}^{−r\tau} S{\rm e}^{r\tau} \Phi(d_{1}) = S{\rm e}^{−r\tau} \Phi(d_{1}) \label{eq:1} 
 \end{flalign}
 
-$\Phi(d_{1})$ is a measure by which the discounted expected value of contingent receipt of the asset exceeds the present value of the asset.
 
 \subsection{Asset-or-nothing Put}
 With this type of option, the payout is one unit of the underlying asset if the spot price S at maturity is below the strike price K or zero otherwise. 
@@ -163,12 +153,6 @@ V_{AP_{(T)}} =\left\{
 \right.  \nonumber 
 \end{flalign}
 
-
-<!-- \begin{equation*}
-    V_{AP_{(T)}} = v_{AP}(T, S_{(T)}) = S_{(T)}\mathbbm{1}_{\{S_{(T)} < K\}} 
-\end{equation*} -->
-
-
 Using put-call parity, we can derive the value of an asset-or-nothing binary put option ($V_{AP}$) by substituting \eqref{eq:1} in the formula for $V_{AP}$:
 
  \begin{flalign}
@@ -181,12 +165,6 @@ Using put-call parity, we can derive the value of an asset-or-nothing binary put
 \subsection{Cash-or-nothing Call}
 
 For cash-or-nothing call, the payout is one unit of risk-less asset if the spot price S at maturity $T$ is above the strike price K or zero otherwise. Since this type of option does not involve receiving an asset, the payoff does not depend on the expectation of the asset price at exercise but rather on the probability of the exercise event. 
-
-<!-- \begin{equation*}
-    V_{CC_{(T)}} = v_{CC} (T, S_{(T)}) = \mathbbm{1}_{[S_{(T)}>K]} 
-\end{equation*} -->
-
-<!-- Given that the expected return is the risk-free interest rate $r$, we get: -->
 
  \begin{flalign}
  V_{CC_{(T)}} & = \left\{
@@ -218,10 +196,6 @@ V_{CP_{(T)}} =\left\{
 \end{array}
 \right.  \nonumber 
 \end{flalign}
-
-<!-- \begin{equation*}
-    V_{CP_{(T)}} = v_{CP}(T, S_{(T)}) = \mathbbm{1}_{\{S_{(T)} < K\}} 
-\end{equation*} -->
 
 Using put-call parity, we can derive the value of an cash-or-nothing binary put option ($V_{CP}$) by substituing the value of $V_{CC}$ in the formula for $V_{CP}$:
 
